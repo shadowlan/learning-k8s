@@ -107,13 +107,23 @@ advertiseAddress: 1.2.3.4 -> advertiseAddress: 0.0.0.0
 ```
 
 运行`sudo kubeadm reset`以便清理上一步产生的容器，配置文件等。
-再次运行`sudo kubeadm init --config kubeadm.conf`,成功后会提示在node节点运行`kubectl join ...`。
+再次运行`sudo kubeadm init --config kubeadm.conf`,成功后会提示在node节点安装network addon并运行`kubectl join ...`。
 
-2. 在node节点运行`kubeadm join ...`
+2. 安装network addon  
+根据kubeadm init的最终成功的output提示，在本地配置kubeconfig文件。
+```bash
+mkdir -p $HOME/.kube
+sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+然后运行`kubectl apply -f 'path of your network-add-on yaml file'`,我这里安装的是antrea，所以运行的是`kubectl apply -f https://raw.githubusercontent.com/vmware-tanzu/antrea/main/build/yamls/antrea.yml`.
+
+3. 在node节点运行`kubeadm join ...`
 
 这一步比较简单，直接拷贝上一步`kubeadm init`执行成功后输出的`kubectl join`那一行，然后在node1和node2上执行即可。
 
-3. 修改镜像tag  
+4. 修改镜像tag  
 虽然通过kubeadm.conf修改了镜像库为 'registry.aliyuncs.com/google_containers'， 但是考虑到很多开源应用的helm chart肯定指向的是k8s.gcr.io源，所以还是将三台机器上的镜像都修改了一下。
 ```
 sudo docker tag registry.aliyuncs.com/google_containers/kube-apiserver:v1.20.5 k8s.gcr.io/kube-apiserver:v1.20.5
