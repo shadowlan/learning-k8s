@@ -34,6 +34,17 @@ kubernetesVersion: v1.19.2
 
 运行`kubeadm init --config kubeadm.conf`.
 
+注意：在配置文件里提供的kubernetesVersion，我这里是v1.19.2，master/node机器上安装的kubelet版本需要和这个一致，否则运行init时会有提示。因为之前我在本地机器安装的版本是1.20.5，导致需要重新安装，这里把命令记录下。
+
+```bash
+# on ubuntu 20.04
+# check kubelet version
+apt list kubelet
+# check all available kubelet version
+apt list kubelet -a
+# install specific version
+apt-get install kubelet=v1.19.2-00
+```
 
 ## 参考文章
 
