@@ -23,3 +23,9 @@ EOF
 * get secret data in one line: `kubectl get secret mysecret -o go-template='{{range $k,$v := .data}}{{"### "}}{{$k}}{{"\n"}}{{$v|base64decode}}{{"\n\n"}}{{end}}'`
 * check diff between current state of cluster and a file: `kubectl diff -f local.yaml`
 * check kubectl plugin list: `kubectl plugin list`
+* get raw data
+```
+kubectl get --raw /api/v1/namespaces
+kubectl get --raw /apis/metrics.k8s.io/v1beta1/nodes
+kubectl get --raw /apis/metrics.k8s.io/v1beta1/pods
+```

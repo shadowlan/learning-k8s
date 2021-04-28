@@ -16,9 +16,9 @@ network:
       dhcp4: false
       addresses: [172.16.6.128/24]
       optional: true
-      gateway4: 172.16.6.2
+      gateway4: 172.16.6.1
       nameservers:
-        addresses: [172.16.6.2,114.114.114.114,8.8.8.8] 
+        addresses: [172.16.6.1,114.114.114.114,8.8.8.8]
   version: 2
   ```
 2. 使配置生效：`sudo netplan apply`
@@ -40,7 +40,7 @@ network:
 
 安装kubeadm前需要做一些环境检查和准备，我没有完全按照[官方文档](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)来，官方文档应该是最全的，
 
-1. 确认br_netfilter模块是否加载`smod | grep br_netfilter`,如果没加载运行`sudo modprobe br_netfilter`
+1. 确认br_netfilter模块是否加载`lsmod | grep br_netfilter`,如果没加载运行`sudo modprobe br_netfilter`
 2. [配置systemd为docker的cgroup driver](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker)
 ```bash
 cat <<EOF | sudo tee /etc/docker/daemon.json

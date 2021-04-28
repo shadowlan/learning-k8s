@@ -43,7 +43,7 @@ apt list kubelet
 # check all available kubelet version
 apt list kubelet -a
 # install specific version
-apt-get install kubelet=v1.19.2-00
+apt-get install kubelet=1.19.2-00
 ```
 
 ## 参考文章
